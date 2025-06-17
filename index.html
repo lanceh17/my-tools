@@ -13,6 +13,15 @@
             padding: 0; /* Reset body padding to allow full control by inner divs */
             margin: 0; /* Reset body margin */
             box-sizing: border-box; /* Include padding in element's total width and height */
+            /* --- Background image styles added here --- */
+            background-image: url('images/your-background-image.jpg'); /* REPLACE 'images/your-background-image.jpg' with your image path */
+            background-size: cover; /* Scales the image to cover the entire viewport */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from tiling */
+            background-attachment: fixed; /* Keeps the background fixed when scrolling */
+            /* --- End background image styles --- */
+            background-color: #1a202c; /* Fallback color if image fails to load, or for transparency */
+            color: #cbd5e0; /* Default text color for dark mode */
         }
         /* Custom button styling for a more appealing, interactive look */
         .tool-button {
@@ -85,7 +94,7 @@
         <!-- Container for the buttons using custom grid for responsiveness -->
         <div class="grid-container mx-auto">
             <!-- First Button: Pepe Creator (Ready) - Link Updated -->
-            <a href="https://g.co/gemini/share/9fd25a8388f7" target="_blank" rel="noopener noreferrer"
+            <a href="https://gemini.google.com/app/bd4aa8ca790ad20b" target="_blank" rel="noopener noreferrer"
                class="tool-button bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-6 rounded-xl">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.85 6.55l-3.09 3.72L9.5 12.01 6 16h12l-3.85-6.45z"/>
@@ -94,7 +103,7 @@
             </a>
 
             <!-- Second Button: Anon Creator (Now Active) -->
-            <a href="https://g.co/gemini/share/9b147b2c6c53" target="_blank" rel="noopener noreferrer"
+            <a href="https://g.co/gemini/share/398d49162fbe" target="_blank" rel="noopener noreferrer"
                class="tool-button bg-green-500 hover:bg-green-600 text-white font-semibold py-4 px-6 rounded-xl">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-4.85 6.55l-3.09 3.72L9.5 12.01 6 16h12l-3.85-6.45z"/>
