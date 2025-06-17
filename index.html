@@ -123,7 +123,7 @@
 
         <!-- Footer section with responsive margin-top -->
         <footer class="mt-16 text-sm text-center text-gray-100 flex items-center justify-center">
-            &copy; 2025  <a href="https://x.com/Stylzbeats" target="_blank" rel="noopener noreferrer" class="hover:underline text-yellow-300">LEQ17</a> <span id="localTime" class="ml-2"></span> <span id="weatherDisplay" class="ml-2"></span>
+            &copy; 2025 <a href="https://x.com/Stylzbeats" target="_blank" rel="noopener noreferrer" class="hover:underline text-yellow-300">LEQ17</a> <span id="localTime" class="ml-2"></span>
         </footer>
     </div>
 
@@ -146,109 +146,6 @@
 
         // Set initial time immediately when the page loads
         updateLocalTime();
-    </script>
-
-    <!-- Weather Script (Now using National Weather Service API) -->
-    <script>
-        const weatherDisplay = document.getElementById('weatherDisplay');
-
-        async function fetchNWSWeather(latitude, longitude) {
-            weatherDisplay.textContent = `| Fetching weather...`; // Indicate loading
-
-            try {
-                // Step 1: Get gridpoint metadata from /points endpoint
-                const pointsUrl = `https://api.weather.gov/points/${latitude},${longitude}`;
-                const pointsResponse = await fetch(pointsUrl);
-
-                if (!pointsResponse.ok) {
-                    throw new Error(`NWS Points API error: ${pointsResponse.status} ${pointsResponse.statusText}`);
-                }
-                const pointsData = await pointsResponse.json();
-
-                // Extract the hourly forecast URL
-                const forecastHourlyUrl = pointsData.properties.forecastHourly;
-                if (!forecastHourlyUrl) {
-                    throw new Error("Could not find hourly forecast URL for this location.");
-                }
-
-                // Step 2: Fetch hourly forecast from the obtained URL
-                const forecastResponse = await fetch(forecastHourlyUrl);
-
-                if (!forecastResponse.ok) {
-                    throw new Error(`NWS Forecast API error: ${forecastResponse.status} ${forecastResponse.statusText}`);
-                }
-                const forecastData = await forecastResponse.json();
-
-                // Extract current temperature and short forecast from the first period
-                if (forecastData.properties && forecastData.properties.periods && forecastData.properties.periods.length > 0) {
-                    const currentPeriod = forecastData.properties.periods[0];
-                    const temperature = currentPeriod.temperature;
-                    const temperatureUnit = currentPeriod.temperatureUnit; // Should be 'F' for imperial
-                    const shortForecast = currentPeriod.shortForecast;
-
-                    weatherDisplay.textContent = `| ${temperature}°${temperatureUnit}, ${shortForecast}`;
-                } else {
-                    weatherDisplay.textContent = `| NWS Weather data unavailable.`;
-                }
-
-            } catch (error) {
-                console.error("Error fetching NWS weather:", error);
-                weatherDisplay.textContent = `| Weather error: ${error.message}.`;
-            }
-        }
-
-        // Get user's geolocation and then fetch weather using NWS
-        function getWeather() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const lat = position.coords.latitude;
-                        const lon = position.coords.longitude;
-                        fetchNWSWeather(lat, lon); // Call the NWS specific weather function
-                    },
-                    (error) => {
-                        console.error("Geolocation error details:", error.code, error.message);
-                        let errorMessage = "";
-                        // Fallback coordinates (e.g., for a general US location like New York City)
-                        const fallbackLat = 40.7128;
-                        const fallbackLon = -74.0060;
-
-                        switch(error.code) {
-                            case error.PERMISSION_DENIED:
-                                // This specific error means the browser/policy is blocking it.
-                                errorMessage = "Location permission denied or blocked by policy. Showing weather for a default location.";
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorMessage = "Location information unavailable. Showing weather for a default location.";
-                                break;
-                            case error.TIMEOUT:
-                                errorMessage = "Location request timed out. Showing weather for a default location.";
-                                break;
-                            case error.UNKNOWN_ERROR:
-                                errorMessage = "An unknown location error occurred. Showing weather for a default location.";
-                                break;
-                            default:
-                                errorMessage = "An unexpected location error occurred. Showing weather for a default location.";
-                        }
-                        weatherDisplay.textContent = `| ${errorMessage}`;
-                        console.warn(`Using fallback weather location: Lat ${fallbackLat}, Lon ${fallbackLon}`);
-                        fetchNWSWeather(fallbackLat, fallbackLon); // Use fallback coordinates
-                    }
-                );
-            } else {
-                weatherDisplay.textContent = `| Geolocation not supported by browser. Showing weather for a default location.`;
-                const fallbackLat = 40.7128; // Default New York City latitude
-                const fallbackLon = -74.0060; // Default New York City longitude
-                console.warn(`Using fallback weather location: Lat ${fallbackLat}, Lon ${fallbackLon}`);
-                fetchNWSWeather(fallbackLat, fallbackLon); // Use fallback coordinates
-            }
-        }
-
-        // Fetch weather data when the page loads
-        getWeather();
-
-        // Optionally, update weather periodically (e.g., every 10 minutes)
-        // setInterval(getWeather, 10 * 60 * 1000);
     </script>
 
     <!-- Ko-fi.com Pop-up Widget Script -->
