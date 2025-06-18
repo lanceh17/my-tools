@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q PROOFS</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the Poppins font */
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Custom glow for the H1 */
+        .text-glow-yellow {
+            text-shadow: 0 0 8px rgba(255, 255, 0, 0.7), /* Yellow glow */
+                         0 0 15px rgba(255, 255, 0, 0.5); /* Wider, softer glow */
+        }
+
+        /* Dark mode styles */
+        body.dark {
+            background-color: #1a202c; /* Dark charcoal */
+            color: #e2e8f0; /* Light gray for text */
+        }
+
+        body.dark .container {
+            background-color: #2d3748; /* Darker gray for container */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15); /* Darker shadow */
+        }
+
+        body.dark h1 {
+            color: #ffea00; /* Bright yellow for heading in dark mode */
+        }
+
+        body.dark p {
+            color: #cbd5e0; /* Lighter gray for paragraph text */
+        }
+
+        body.dark .image-card {
+            background-color: #4a5568; /* Darker gray for image cards */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1); /* Darker card shadow */
+        }
+
+        body.dark .image-card p {
+            color: #a0aec0; /* Even lighter gray for image descriptions */
+        }
+
+        /* Light mode styles (default) */
+        body:not(.dark) {
+            background-color: #f0f4f8; /* Light gray background */
+            color: #333;
+        }
+
+        body:not(.dark) .container {
+            background-color: #ffffff; /* White for container */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body:not(.dark) h1 {
+            color: #ffd700; /* Gold-ish yellow for heading in light mode */
+        }
+
+        body:not(.dark) p {
+            color: #4a5568; /* Darker gray for paragraph text */
+        }
+
+        body:not(.dark) .image-card {
+            background-color: #f7fafc; /* Lightest gray for image cards */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body:not(.dark) .image-card p {
+            color: #718096; /* Gray for image descriptions */
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="container mx-auto p-4 rounded-xl transition-all duration-300">
+        <div class="flex flex-col sm:flex-row justify-center items-center mb-8 relative">
+            <!-- Dark Mode Toggle Button positioned absolutely for flexibility -->
+            <button id="theme-toggle" class="absolute top-0 right-0 p-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow-md hover:scale-105 transform transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 z-10">
+                <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                <svg id="sun-icon" class="hidden w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M2 12h1m15.364 6.364l-.707.707M6.343 6.343l-.707-.707m12.728 0l-.707-.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </button>
+            <h1 class="text-5xl sm:text-6xl font-extrabold transition-colors duration-300 text-glow-yellow text-center w-full">
+                <span class="text-7xl sm:text-8xl">Q</span> PROOFS
+            </h1>
+        </div>
+
+        <p class="text-lg text-center mb-10 max-w-2xl mx-auto transition-colors duration-300">
+            Explore a collection of visualizations illustrating key concepts and proofs in quantum mechanics.
+            Each image below provides a unique perspective on the intricate world of quantum phenomena.
+        </p>
+
+        <!-- Image Gallery Section - Images will be loaded here by JavaScript -->
+        <div id="image-gallery" class="flex flex-wrap justify-center items-center gap-6 p-4">
+            <!-- Images will be dynamically inserted here -->
+            <div id="loading-indicator" class="text-center text-lg text-gray-500 dark:text-gray-400">
+                Loading images...
+            </div>
+        </div>
+
+        <p class="text-center text-gray-600 mt-10 text-sm transition-colors duration-300">
+            This page demonstrates responsive image layout using Tailwind CSS and dynamic loading.
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gallery = document.getElementById('image-gallery');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const moonIcon = document.getElementById('moon-icon');
+            const sunIcon = document.getElementById('sun-icon');
+
+            // Function to set the theme
+            const setTheme = (theme) => {
+                if (theme === 'dark') {
+                    body.classList.add('dark');
+                    moonIcon.classList.add('hidden');
+                    sunIcon.classList.remove('hidden');
+                } else {
+                    body.classList.remove('dark');
+                    moonIcon.classList.remove('hidden');
+                    sunIcon.classList.add('hidden');
+                }
+                localStorage.setItem('theme', theme); // Save preference
+            };
+
+            // Check for saved theme preference or default to light
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                // Check for OS dark mode preference
+                setTheme('dark');
+            } else {
+                setTheme('light'); // Default to light mode
+            }
+
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', () => {
+                if (body.classList.contains('dark')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            });
+
+            // Function to fetch and display images
+            const fetchImages = async () => {
+                try {
+                    // Fetch the JSON file containing image data
+                    const response = await fetch('images.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const imageData = await response.json();
+
+                    // Hide loading indicator
+                    loadingIndicator.classList.add('hidden');
+
+                    // Loop through the fetched data and create image elements
+                    imageData.forEach(image => {
+                        const div = document.createElement('div');
+                        div.className = 'image-card flex flex-col items-center p-4 rounded-lg shadow-md w-full sm:w-1/2 md:w-1/3 lg:w-1/4 transition-colors duration-300';
+
+                        const img = document.createElement('img');
+                        img.src = image.src;
+                        img.alt = image.alt;
+                        img.className = 'rounded-lg shadow-sm mb-4 max-w-full h-auto object-cover';
+                        img.onerror = function() {
+                            console.error('Failed to load image:', this.src);
+                            this.src = "https://placehold.co/400x300/CCCCCC/666666?text=Image+Missing"; // Fallback placeholder
+                        };
+
+                        const p = document.createElement('p');
+                        p.className = 'text-sm font-medium text-center transition-colors duration-300';
+                        p.textContent = image.description;
+
+                        div.appendChild(img);
+                        div.appendChild(p);
+                        gallery.appendChild(div);
+                    });
+                } catch (error) {
+                    console.error('Error fetching images:', error);
+                    loadingIndicator.textContent = 'Failed to load images. Please check the images.json file.';
+                    loadingIndicator.classList.remove('hidden'); // Ensure error message is visible
+                    loadingIndicator.classList.add('text-red-500'); // Make error message red
+                }
+            };
+
+            // Call the function to fetch images when the DOM is ready
+            fetchImages();
+        });
+    </script>
+</body>
+</html>
