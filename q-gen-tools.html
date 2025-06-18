@@ -4,57 +4,222 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Q Gen Tools</title>
-    <!-- Tailwind CSS CDN for easy styling and responsiveness -->
+    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Poppins (retaining this as per previous discussions) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Custom font for a clean look across devices */
+        /* Custom styles for the Poppins font and transitions */
         body {
-            font-family: "Inter", sans-serif;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
             padding: 0;
             margin: 0;
             box-sizing: border-box;
-            /* --- Background image styles (matching your main page) --- */
+            /* Background image styles from your provided code */
             background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('pepe_image_1.png');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            /* --- End background image styles --- */
-            background-color: #1a202c; /* Fallback color */
-            color: #cbd5e0; /* Default text color */
         }
-        /* Add any specific styles for this Q Gen page if needed */
+
+        /* Custom glow for the H1 */
+        .h1-glow {
+            text-shadow: 0 0 10px rgba(190, 242, 100, 0.8), /* Brighter lime glow */
+                         0 0 20px rgba(190, 242, 100, 0.6), /* Wider, softer lime glow */
+                         0 0 30px rgba(190, 242, 100, 0.4); /* Even wider, fainter glow */
+        }
+
+        /* Dark mode styles (adjusted to blend with background image if needed) */
+        body.dark {
+            background-color: #1a202c; /* Fallback for dark mode, mostly covered by image overlay */
+            color: #e2e8f0; /* Light gray for text */
+        }
+
+        body.dark .container {
+            background-color: #2d3748; /* Darker gray for container */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.15); /* Darker shadow */
+        }
+
+        body.dark h1 {
+            /* This is now handled by inline Tailwind classes and glow, but keeping for consistency */
+            /* color: #ffea00; */
+        }
+
+        body.dark p, body.dark .tool-card h3 {
+            color: #cbd5e0; /* Lighter gray for paragraph text and tool titles */
+        }
+
+        body.dark .tool-card {
+            background-color: #4a5568; /* Darker gray for tool cards */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.1); /* Darker card shadow */
+        }
+
+        body.dark .tool-card p {
+            color: #a0aec0; /* Even lighter gray for tool descriptions */
+        }
+
+        /* Light mode styles (default) */
+        body:not(.dark) {
+            background-color: #f0f4f8; /* Fallback for light mode */
+            color: #333;
+        }
+
+        body:not(.dark) .container {
+            background-color: #ffffff; /* White for container */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body:not(.dark) h1 {
+            /* This is now handled by inline Tailwind classes and glow */
+            /* color: #ffd700; */
+        }
+
+        body:not(.dark) p, body:not(.dark) .tool-card h3 {
+            color: #4a5568; /* Darker gray for paragraph text and tool titles */
+        }
+
+        body:not(.dark) .tool-card {
+            background-color: #f7fafc; /* Lightest gray for tool cards */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body:not(.dark) .tool-card p {
+            color: #718096; /* Gray for tool descriptions */
+        }
+
+        /* Specific style for tool buttons to ensure consistent padding/sizing */
+        .tool-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem; /* Equivalent to Tailwind's gap-3 */
+            /* Increased padding for larger buttons */
+            padding: 1.25rem 2rem; /* Increased from 1rem 1.5rem (py-5 px-8 equivalent) */
+            border-radius: 0.75rem; /* Equivalent to Tailwind's rounded-xl */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Tailwind shadow-lg */
+            transition: all 0.2s ease-in-out;
+            width: 100%; /* Ensure buttons take full width of their grid column */
+            /* Added glow effect to buttons */
+            box-shadow: 0 0 10px rgba(255, 200, 0, 0.6), /* Gold-ish glow */
+                        0 0 20px rgba(255, 100, 0, 0.4); /* Red-ish wider glow */
+        }
+        .tool-button:hover {
+            transform: scale(1.02); /* Slight scale on hover */
+            box-shadow: 0 0 15px rgba(255, 200, 0, 0.8), /* Stronger gold glow on hover */
+                        0 0 25px rgba(255, 100, 0, 0.6); /* Stronger red wider glow on hover */
+        }
+        /* Ensure text is white as per your provided buttons */
+        .tool-button span {
+            color: white;
+            font-weight: 600; /* semi-bold */
+            font-size: 1.375rem; /* Slightly larger than text-xl (1.25rem) to fill button better */
+        }
+        .tool-button svg {
+            height: 1.75rem; /* Increased icon size from h-6 (1.5rem) */
+            width: 1.75rem; /* Increased icon size from w-6 (1.5rem) */
+        }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100">
     <div class="w-full flex flex-col items-center justify-center p-4 min-h-screen">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold font-serif text-center mb-8 text-lime-300 shadow-lg p-4 rounded-lg">
-            Q Tools
-        </h1>
+        <div class="relative w-full max-w-4xl flex justify-center items-center mb-8">
+            <!-- Dark Mode Toggle Button positioned absolutely for flexibility -->
+            <button id="theme-toggle" class="absolute top-0 right-0 p-3 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 shadow-md hover:scale-105 transform transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-75 z-10">
+                <svg id="moon-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                <svg id="sun-icon" class="hidden w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h1M2 12h1m15.364 6.364l-.707.707M6.343 6.343l-.707-.707m12.728 0l-.707-.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </button>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-center mb-8 text-lime-300 shadow-lg p-4 rounded-lg h1-glow">
+                Q TOOLS
+            </h1>
+        </div>
 
-        <p class="text-lg sm:text-xl text-center max-w-2xl mb-12 text-gray-300">
-            Welcome to the Q Gen Tools page! Here you will find various tools related to question generation.
+        <p class="text-lg sm:text-xl text-center max-w-2xl mb-12 text-gray-300 transition-colors duration-300">
+            These tools will help you dig on open source information.
         </p>
 
-        <!-- Example Buttons for Q Gen Tools -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl mx-auto">
-            <a href="#" class="tool-button bg-blue-700 hover:bg-blue-800 text-white font-semibold py-4 px-6 rounded-xl shadow-lg flex items-center justify-center gap-3">
+        <!-- Tool Buttons -->
+        <div class="grid grid-cols-1 gap-6 w-full max-w-xs mx-auto">
+            <a href="https://lanceh17.github.io/my-tools/q-proofs.html" class="tool-button bg-purple-800 hover:bg-purple-700 text-white font-semibold flex items-center justify-center gap-3">
+                <!-- Icon for Proofs/Truth: Checkmark/Clipboard or similar -->
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9.228a4.5 4.5 0 110 5.544M15.717 11.283a4.5 4.5 0 110 5.544M18.828 14.228a4.5 4.5 0 110 5.544M5.115 14.885a4.5 4.5 0 110 5.544M1.115 11.885a4.5 4.5 0 110 5.544M12 1.772a4.5 4.5 0 110 5.544M12 22.228a4.5 4.5 0 110 5.544M18.828 9.772a4.5 4.5 0 110 5.544" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span class="text-xl">Q PROOFS</span>
             </a>
-            <a href="#" class="tool-button bg-green-700 hover:bg-green-800 text-white font-semibold py-4 px-6 rounded-xl shadow-lg flex items-center justify-center gap-3">
+            <a href="https://qagg.news/" class="tool-button bg-gray-700 hover:bg-gray-600 text-white font-semibold flex items-center justify-center gap-3">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
-                <span class="text-xl">Quiz Generator</span>
+                <span class="text-xl">QAGG</span>
+            </a>
+            <a href="https://qalerts.pub/" class="tool-button bg-teal-700 hover:bg-teal-600 text-white font-semibold flex items-center justify-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 17l-3 3m0 0l-3-3m3 3V10m0 2a2 2 0 110-4 2 2 0 010 4z" />
+                </svg>
+                <span class="text-xl">QALERTS</span>
+            </a>
+            <a href="https://bad-boys.us" class="tool-button bg-blue-800 hover:bg-blue-700 text-white font-semibold flex items-center justify-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.882 4.02L1.83 8.358A2 2 0 001 9.946V20a2 2 0 002 2h18a2 2 0 002-2V9.946a2 2 0 00-.83-1.588L16.118 4.02M12 14a4 4 0 100-8 4 4 0 000 8z" />
+                </svg>
+                <span class="text-xl">Indictment tracker</span>
+            </a>
+            <a href="https://qintel.pro" class="tool-button bg-indigo-700 hover:bg-indigo-600 text-white font-semibold flex items-center justify-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span class="text-xl">QintelPro</span>
             </a>
         </div>
 
-        <a href="index.html" class="mt-12 text-sm text-gray-400 hover:underline">
+        <a href="index.html" class="mt-12 text-sm text-gray-400 hover:underline transition-colors duration-300">
             &larr; Back to Main Tools
         </a>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
+            const moonIcon = document.getElementById('moon-icon');
+            const sunIcon = document.getElementById('sun-icon');
+
+            // Function to set the theme
+            const setTheme = (theme) => {
+                if (theme === 'dark') {
+                    body.classList.add('dark');
+                    moonIcon.classList.add('hidden');
+                    sunIcon.classList.remove('hidden');
+                } else {
+                    body.classList.remove('dark');
+                    moonIcon.classList.remove('hidden');
+                    sunIcon.classList.add('hidden');
+                }
+                localStorage.setItem('theme', theme); // Save preference
+            };
+
+            // Check for saved theme preference or default to light
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                // Check for OS dark mode preference
+                setTheme('dark');
+            } else {
+                setTheme('light'); // Default to light mode
+            }
+
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', () => {
+                if (body.classList.contains('dark')) {
+                    setTheme('light');
+                } else {
+                    setTheme('dark');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
